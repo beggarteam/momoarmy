@@ -1,5 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Momo Army</title>
 <meta name="description" content="MOMO — the pink dinosaur mascot of China's default-username anonymity trick, now a buyback-and-burn memecoin on Brew. Build your own PFP." />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<link rel="icon" href="favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -246,6 +255,8 @@
   .disclaimer{ margin-top:24px; font-size:12px; line-height:1.6; color:var(--text-muted); max-width:74ch; }
 </style>
 
+</head>
+<body>
 <nav class="nav">
   <div class="wrap nav-row">
     <div class="brand-cluster">
@@ -287,7 +298,7 @@
       </div>
       <div class="hero-art">
         <div class="frame"><img src="momo.png" alt="MOMO, a pink cartoon dinosaur, mid-thought with both hands raised to its chin" /></div>
-        <div class="badge"><span class="fire">🔥</span> 114.44M $MOMO burned</div>
+        <div class="badge"><span class="fire">🔥</span> <span id="burnBadge">114.44M</span> $MOMO burned</div>
       </div>
     </div>
   </header>
@@ -332,12 +343,12 @@
       <div class="burn-hero">
         <span class="eyebrow" style="color:var(--text-muted)">Total $MOMO burned</span>
         <span class="big mono" id="burnBig">114.44M</span>
-        <span class="sub">11.44% of total supply, sent to the burn address for good</span>
+        <span class="sub" id="burnPct">11.44% of total supply, sent to the burn address for good</span>
       </div>
 
       <div class="stat-grid">
-        <div class="stat"><div class="k">Total supply</div><div class="v mono">1,000M</div></div>
-        <div class="stat"><div class="k">Circulating (post-burn)</div><div class="v mono">~885.56M</div></div>
+        <div class="stat"><div class="k">Total supply</div><div class="v mono" id="statSupply">1,000M</div></div>
+        <div class="stat"><div class="k">Circulating (post-burn)</div><div class="v mono" id="statCirculating">~885.56M</div></div>
         <div class="stat"><div class="k">Holders</div><div class="v mono">1,790</div></div>
         <div class="stat"><div class="k">Chain</div><div class="v mono">BNB Smart Chain</div></div>
       </div>
@@ -347,7 +358,7 @@
         <button type="button" data-copy="0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024">Copy address</button>
       </div>
 
-      <p class="snapshot-note">📸 Snapshot from Brew · Sep 19, 2026 — burns happen continuously, so check the live figure <a href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">on Brew ↗</a></p>
+      <p class="snapshot-note" id="burnSourceNote">📸 Snapshot from Brew · Sep 19, 2026 — burns happen continuously, so check the live figure <a href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">on Brew ↗</a></p>
     </div>
   </section>
 
@@ -561,7 +572,7 @@
   var HEADWEAR = {
     none: { label: "None", draw: function(){} },
     crown: { label: "Crown", draw: function(c, anchorX, topY){
-      var w = CARD.w * 0.40, h = CARD.h * 0.16, x = anchorX - w / 2, y = topY - h * 0.72;
+      var w = CARD.w * 0.46, h = CARD.h * 0.20, x = anchorX - w / 2, bottom = topY + CARD.h * 0.115, y = bottom - h;
       c.save();
       c.beginPath();
       c.moveTo(x, y + h);
@@ -662,19 +673,60 @@
       var e = eyeAnchors();
       c.save();
       [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
-        var g = c.createLinearGradient(p[0], p[1], p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.16);
-        g.addColorStop(0, "rgba(238,60,60,.95)"); g.addColorStop(1, "rgba(238,60,60,0)");
-        c.beginPath(); c.moveTo(p[0], p[1] - 5); c.lineTo(p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.13);
-        c.lineTo(p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.19); c.lineTo(p[0], p[1] + 5); c.closePath();
+        var len = CARD.w * 0.44, spread = CARD.h * 0.055;
+        var g = c.createLinearGradient(p[0], p[1], p[0] + len, p[1] + len * 0.55);
+        g.addColorStop(0, "rgba(255,80,70,1)");
+        g.addColorStop(0.45, "rgba(255,45,45,.9)");
+        g.addColorStop(1, "rgba(255,45,45,0)");
+        c.save();
+        c.shadowColor = "rgba(255,50,50,.95)"; c.shadowBlur = 30;
+        c.beginPath();
+        c.moveTo(p[0], p[1] - spread * 0.7);
+        c.lineTo(p[0] + len, p[1] + len * 0.55 - spread);
+        c.lineTo(p[0] + len, p[1] + len * 0.55 + spread);
+        c.lineTo(p[0], p[1] + spread * 0.7);
+        c.closePath();
         c.fillStyle = g; c.fill();
-        c.beginPath(); c.arc(p[0], p[1], 9, 0, Math.PI * 2); c.fillStyle = "#FF5A5A"; c.fill();
+        c.restore();
+
+        c.save();
+        c.shadowColor = "#FF3B3B"; c.shadowBlur = 34;
+        c.beginPath(); c.arc(p[0], p[1], CARD.w * 0.05, 0, Math.PI * 2);
+        c.fillStyle = "#FF5A5A"; c.fill();
+        c.beginPath(); c.arc(p[0], p[1], CARD.w * 0.032, 0, Math.PI * 2);
+        c.fillStyle = "#FFD9D0"; c.fill();
+        c.restore();
+        c.beginPath(); c.arc(p[0] - CARD.w * 0.014, p[1] - CARD.w * 0.014, CARD.w * 0.013, 0, Math.PI * 2);
+        c.fillStyle = "rgba(255,255,255,.9)"; c.fill();
       });
       c.restore();
     }},
     heart: { label: "Heart Eyes", draw: function(c){
+      var e = eyeAnchors(), s = CARD.w * 0.155;
+      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
+        c.save(); c.shadowColor = "rgba(226,76,104,.55)"; c.shadowBlur = 14;
+        drawHeart(c, p[0], p[1] - s * 0.06, s, "#E24C68");
+        c.restore();
+        c.save(); c.globalAlpha = .55;
+        drawHeart(c, p[0] - s * 0.16, p[1] - s * 0.22, s * 0.28, "#ffffff");
+        c.restore();
+      });
+    }},
+    dollar: { label: "Dollar Eyes", draw: function(c){
       var e = eyeAnchors();
-      drawHeart(c, e.lx, e.ly, CARD.w * 0.085, "#E24C68");
-      drawHeart(c, e.rx, e.ry, CARD.w * 0.085, "#E24C68");
+      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
+        c.save();
+        c.translate(p[0], p[1] + CARD.w * 0.008);
+        c.font = "800 " + Math.round(CARD.w * 0.15) + "px 'Baloo 2','Manrope',sans-serif";
+        c.textAlign = "center"; c.textBaseline = "middle";
+        c.lineJoin = "round"; c.lineWidth = CARD.w * 0.012; c.strokeStyle = LINE_DARK;
+        c.strokeText("$", 0, 0);
+        var g = c.createLinearGradient(0, -CARD.w * 0.08, 0, CARD.w * 0.08);
+        g.addColorStop(0, "#FCE7A8"); g.addColorStop(0.55, "#E6B657"); g.addColorStop(1, "#B4863B");
+        c.fillStyle = g;
+        c.fillText("$", 0, 0);
+        c.restore();
+      });
     }},
     nerd: { label: "Nerd Glasses", draw: function(c){
       var e = eyeAnchors(), r = CARD.w * 0.08;
@@ -742,6 +794,46 @@
       }
       c.closePath();
       c.fillStyle = "#F3D48A"; c.fill();
+      c.restore();
+    }},
+    coffee: { label: "Brew Coffee", draw: function(c){
+      var b = badgeAnchor();
+      c.save();
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      c.fillStyle = "#2A1B14"; c.fill(); c.lineWidth = 5; c.strokeStyle = "#fff"; c.stroke();
+
+      c.save();
+      c.translate(b.x, b.y + b.r * 0.14); c.scale(b.r / 46, b.r / 46);
+
+      c.lineWidth = 2.6; c.strokeStyle = "rgba(247,236,228,.75)"; c.lineCap = "round";
+      [-7, 6].forEach(function(sx){
+        c.beginPath();
+        c.moveTo(sx, -14);
+        c.bezierCurveTo(sx - 5, -20, sx + 5, -24, sx, -30);
+        c.stroke();
+      });
+
+      c.beginPath();
+      c.moveTo(-15, -8);
+      c.lineTo(14, -8);
+      c.lineTo(11, 17);
+      c.quadraticCurveTo(9, 21, 4, 21);
+      c.lineTo(-4, 21);
+      c.quadraticCurveTo(-9, 21, -11, 17);
+      c.closePath();
+      c.fillStyle = "#F7ECE4"; c.fill();
+      c.lineWidth = 2.5; c.strokeStyle = LINE_DARK; c.stroke();
+
+      c.beginPath();
+      c.ellipse(18, 2, 6.5, 8.5, 0, -1.1, 1.1, false);
+      c.lineWidth = 3.4; c.strokeStyle = LINE_DARK; c.stroke();
+
+      c.beginPath(); c.ellipse(-0.5, -8, 14.6, 3.4, 0, 0, Math.PI * 2);
+      c.fillStyle = "#4A2E1D"; c.fill();
+      c.beginPath(); c.ellipse(-0.5, -8, 14.6, 3.4, 0, 0, Math.PI, true);
+      c.lineWidth = 2; c.strokeStyle = "#D8B573"; c.stroke();
+
+      c.restore();
       c.restore();
     }},
     shield: { label: "Privacy Shield", draw: function(c){
@@ -874,5 +966,69 @@
   });
 
   render();
+
+  // ---------- live burn stats (reads BNB Chain directly, no backend needed) ----------
+  // This calls a public BSC JSON-RPC endpoint client-side and reads the token's own
+  // balanceOf() for the standard "burn" addresses. It's the same on-chain fact Brew's
+  // page reads — there's no official public API for Brew's own computed figure, so
+  // this queries the chain directly instead of trying to mirror their backend.
+  (function liveBurn(){
+    var TOKEN = "0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024";
+    var DEAD = "000000000000000000000000000000000000dead";
+    var ZERO = "0000000000000000000000000000000000000000";
+    var RPCS = [
+      "https://bsc.publicnode.com",
+      "https://bsc-dataseed.binance.org",
+      "https://binance.llamarpc.com",
+      "https://bsc-dataseed1.defibit.io"
+    ];
+    var SUPPLY = 1000000000; // fixed mint, confirmed on Brew
+
+    function call(rpc, data){
+      return fetch(rpc, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: TOKEN, data: data }, "latest"] })
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if (!j || !j.result || j.result === "0x") throw new Error("bad rpc result");
+        return BigInt(j.result);
+      });
+    }
+
+    function tryRpc(i){
+      if (i >= RPCS.length) return Promise.reject(new Error("all rpcs failed"));
+      var rpc = RPCS[i];
+      return Promise.all([
+        call(rpc, "0x70a08231" + DEAD.padStart(64, "0")),
+        call(rpc, "0x70a08231" + ZERO.padStart(64, "0"))
+      ]).catch(function(){ return tryRpc(i + 1); });
+    }
+
+    function fmtM(n){ return (n / 1e6).toFixed(2) + "M"; }
+
+    tryRpc(0).then(function(results){
+      if (!results) return; // exhausted RPCs
+      var deadBal = Number(results[0]) / 1e18;
+      var zeroBal = Number(results[1]) / 1e18;
+      var burned = deadBal + zeroBal;
+      if (!(burned > 0)) throw new Error("no burn balance found");
+      var pct = (burned / SUPPLY) * 100;
+      var circulating = SUPPLY - burned;
+
+      document.getElementById("burnBig").textContent = fmtM(burned);
+      document.getElementById("burnBadge").textContent = fmtM(burned);
+      document.getElementById("burnPct").textContent = pct.toFixed(2) + "% of total supply, sent to the burn address for good";
+      document.getElementById("statCirculating").textContent = "~" + fmtM(circulating);
+      var note = document.getElementById("burnSourceNote");
+      if (note){
+        note.innerHTML = '🟢 Live from BNB Chain, read straight from the token contract — cross-check anytime <a href="https://brew.family/token/?address=' + TOKEN + '&exploreTab=trending" target="_blank" rel="noopener">on Brew ↗</a>';
+      }
+    }).catch(function(){
+      // All RPCs failed or returned something unusable — keep the static snapshot
+      // numbers already in the page instead of showing something broken.
+    });
+  })();
 })();
 </script>
+</body>
+</html>
