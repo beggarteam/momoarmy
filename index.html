@@ -1,0 +1,878 @@
+<title>Momo Army</title>
+<meta name="description" content="MOMO — the pink dinosaur mascot of China's default-username anonymity trick, now a buyback-and-burn memecoin on Brew. Build your own PFP." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FFF6EF;
+    --surface:#FFFFFF;
+    --surface-2:#FCEAE0;
+    --text:#241512;
+    --text-muted:#8A6E66;
+    --accent:#F2B1AA;
+    --accent-deep:#C24F63;
+    --accent-deep-ink:#ffffff;
+    --line:#6B3A4D;
+    --gold:#A97A2E;
+    --gold-soft:#F4E3C2;
+    --border: rgba(36,21,18,0.13);
+    --shadow: 0 24px 48px -28px rgba(36,21,18,0.45);
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B1210;
+      --surface:#241713;
+      --surface-2:#2E1D18;
+      --text:#F7ECE4;
+      --text-muted:#C6A79C;
+      --accent:#F2B1AA;
+      --accent-deep:#EE7E8F;
+      --accent-deep-ink:#231014;
+      --line:#E7B9C6;
+      --gold:#D8B573;
+      --gold-soft:#3A2C1C;
+      --border: rgba(247,236,228,0.14);
+      --shadow: 0 24px 48px -28px rgba(0,0,0,0.65);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B1210;
+    --surface:#241713;
+    --surface-2:#2E1D18;
+    --text:#F7ECE4;
+    --text-muted:#C6A79C;
+    --accent:#F2B1AA;
+    --accent-deep:#EE7E8F;
+    --accent-deep-ink:#231014;
+    --line:#E7B9C6;
+    --gold:#D8B573;
+    --gold-soft:#3A2C1C;
+    --border: rgba(247,236,228,0.14);
+    --shadow: 0 24px 48px -28px rgba(0,0,0,0.65);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:1080px; margin:0 auto; padding-inline:20px; }
+  h1,h2,h3{ font-family:"Baloo 2","Manrope",sans-serif; text-wrap:balance; margin:0; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .mono{ font-family:"JetBrains Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums; }
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+  button{ font-family:inherit; cursor:pointer; }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:40;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; row-gap:10px;
+    padding-block:12px; flex-wrap:wrap;
+  }
+  .brandmark{ display:flex; align-items:center; gap:9px; font-family:"Baloo 2"; font-weight:800; font-size:21px; }
+  .brandmark .dot{ width:11px; height:11px; border-radius:50%; background:var(--accent); border:2px solid var(--line); }
+  .nav-links{ display:flex; align-items:center; gap:22px; font-size:14.5px; font-weight:600; }
+  .nav-links a{ text-decoration:none; color:var(--text-muted); }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-actions{ display:flex; align-items:center; gap:10px; }
+  .brand-cluster{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .ca-pill{
+    display:inline-flex; align-items:center; gap:8px; font-size:12.5px;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:999px;
+    padding:7px 12px; color:var(--text-muted);
+  }
+  .ca-pill button{ background:none; border:none; color:var(--accent-deep); font-weight:700; padding:0; font-size:12.5px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:7px; border-radius:999px; font-weight:700;
+    padding:10px 18px; font-size:14.5px; border:1px solid transparent; text-decoration:none; white-space:nowrap;
+  }
+  .btn-primary{ background:var(--accent-deep); color:var(--accent-deep-ink); }
+  .btn-primary:hover{ filter:brightness(1.06); }
+  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--text); }
+  .btn-ghost:hover{ background:var(--surface-2); }
+  @media (min-width:760px){ .nav-links{ display:flex; } }
+  @media (max-width:759px){ .nav-links{ display:none; } }
+  @media (max-width:420px){ .ca-pill{ font-size:11.5px; padding:6px 10px; gap:6px; } }
+
+  /* ---------- marquee ---------- */
+  .marquee{
+    border-block:1px solid var(--border); background:var(--surface-2);
+    overflow:hidden; white-space:nowrap;
+  }
+  .marquee-track{
+    display:inline-flex; gap:2.5em; padding-block:9px;
+    animation: scroll-left 26s linear infinite;
+    font-family:"JetBrains Mono",monospace; font-size:12.5px; font-weight:600;
+    letter-spacing:.06em; color:var(--text-muted);
+  }
+  .marquee-track span{ display:inline-flex; align-items:center; gap:2.5em; }
+  @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion:reduce){ .marquee-track{ animation:none; } }
+
+  /* ---------- hero ---------- */
+  .hero{ padding-block:56px 40px; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:46px; align-items:center; }
+  @media (max-width:820px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero h1{ font-size:clamp(34px,6vw,58px); line-height:1.02; font-weight:800; }
+  .hero h1 em{ font-style:normal; color:var(--accent-deep); }
+  .hero p.lede{ margin-top:16px; font-size:17.5px; line-height:1.55; color:var(--text-muted); max-width:46ch; }
+  .hero-ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; }
+  .hero-art{ position:relative; }
+  .hero-art .frame{
+    aspect-ratio:1/1; border-radius:36px; overflow:hidden; border:1px solid var(--border);
+    box-shadow:var(--shadow); background:linear-gradient(160deg,var(--accent),var(--gold-soft));
+    position:relative;
+  }
+  .hero-art .frame img{ width:100%; height:100%; object-fit:cover; }
+  .hero-art .badge{
+    position:absolute; bottom:-16px; left:-16px; background:var(--surface); border:1px solid var(--border);
+    border-radius:16px; padding:10px 14px; box-shadow:var(--shadow); font-size:12.5px; font-weight:700;
+    display:flex; align-items:center; gap:8px;
+  }
+  .hero-art .badge .fire{ font-size:16px; }
+  @media (max-width:480px){ .hero-art .badge{ left:8px; bottom:-14px; padding:8px 11px; font-size:11.5px; } }
+
+  /* ---------- generic section ---------- */
+  section{ padding-block:58px; border-top:1px solid var(--border); }
+  .section-head{ max-width:640px; margin-bottom:32px; }
+  .section-head h2{ font-size:clamp(26px,4vw,36px); margin-top:8px; }
+  .section-head p{ margin-top:12px; color:var(--text-muted); font-size:15.5px; line-height:1.6; }
+
+  /* ---------- lore ---------- */
+  .lore-grid{ display:grid; grid-template-columns:1.3fr .9fr; gap:40px; align-items:start; }
+  @media (max-width:820px){ .lore-grid{ grid-template-columns:1fr; } }
+  .lore-body p{ font-size:15.5px; line-height:1.75; color:var(--text); margin:0 0 16px; }
+  .lore-body p.muted{ color:var(--text-muted); font-size:14px; }
+  .pull{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:26px 24px; box-shadow:var(--shadow);
+  }
+  .pull q{ font-family:"Baloo 2"; font-size:19px; line-height:1.4; quotes:none; display:block; }
+  .pull .who{ margin-top:14px; font-size:12.5px; color:var(--text-muted); font-family:"JetBrains Mono",monospace; }
+  .fact-list{ list-style:none; margin:20px 0 0; padding:0; display:grid; gap:10px; }
+  .fact-list li{
+    display:flex; gap:10px; font-size:13.5px; color:var(--text-muted); background:var(--surface-2);
+    border-radius:12px; padding:10px 12px; align-items:flex-start; line-height:1.5;
+  }
+  .fact-list b{ color:var(--text); }
+
+  /* ---------- stats ---------- */
+  .burn-hero{
+    display:grid; grid-template-columns:1fr; gap:8px; background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:28px 26px; box-shadow:var(--shadow); margin-bottom:18px;
+  }
+  .burn-hero .big{ font-family:"JetBrains Mono",monospace; font-weight:700; font-size:clamp(38px,7vw,64px); line-height:1; }
+  .burn-hero .sub{ color:var(--text-muted); font-size:14px; }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:760px){ .stat-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stat{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px 16px;
+  }
+  .stat .k{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); font-weight:700; }
+  .stat .v{ font-family:"JetBrains Mono",monospace; font-weight:700; font-size:19px; margin-top:6px; }
+  .snapshot-note{ display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; margin-top:18px; font-size:13px; color:var(--text-muted); }
+  .snapshot-note a{ color:var(--accent-deep); font-weight:700; text-decoration:none; }
+  .ca-row{
+    margin-top:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:13px;
+    background:var(--surface-2); border-radius:12px; padding:10px 14px; width:fit-content; max-width:100%;
+  }
+  .ca-row button{ background:none; border:1px solid var(--border); border-radius:8px; padding:4px 9px; font-size:12px; font-weight:700; color:var(--accent-deep); }
+
+  /* ---------- pfp lab ---------- */
+  .lab{
+    display:grid; grid-template-columns:.85fr 1.15fr; gap:34px; align-items:start;
+  }
+  @media (max-width:860px){ .lab{ grid-template-columns:1fr; } }
+  .lab-canvas-wrap{ position:sticky; top:calc(env(safe-area-inset-top,0px) + 72px); }
+  @media (max-width:860px){ .lab-canvas-wrap{ position:static; } }
+  .lab-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:18px; box-shadow:var(--shadow);
+  }
+  .lab-card canvas{ width:100%; height:auto; border-radius:20px; display:block; background:var(--surface-2); }
+  .lab-card .row{ display:flex; gap:10px; margin-top:14px; }
+  .lab-card .row .btn{ flex:1; justify-content:center; }
+  .lab-status{ min-height:18px; font-size:12.5px; color:var(--text-muted); margin-top:8px; text-align:center; }
+  .trait-group{ margin-bottom:22px; }
+  .trait-group h3{ font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); font-weight:700; margin-bottom:10px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:9px; }
+  .chip{
+    border:1.5px solid var(--border); background:var(--surface); color:var(--text);
+    border-radius:999px; padding:9px 15px; font-size:13.5px; font-weight:600;
+  }
+  .chip[aria-pressed="true"]{ border-color:var(--accent-deep); background:color-mix(in srgb, var(--accent-deep) 14%, var(--surface)); }
+  .chip:hover{ border-color:var(--accent-deep); }
+
+  /* ---------- brew ---------- */
+  .brew-card{
+    display:flex; flex-wrap:wrap; gap:26px; align-items:center; justify-content:space-between;
+    background:linear-gradient(135deg,#241713,#3A2517); color:#F7ECE4; border-radius:var(--radius-lg);
+    padding:30px 28px; box-shadow:var(--shadow);
+  }
+  .brew-lockup{ display:flex; align-items:center; gap:12px; }
+  .brew-lockup svg{ width:38px; height:38px; }
+  .brew-lockup span{ font-family:"Baloo 2"; font-weight:700; font-size:24px; }
+  .brew-lockup span i{ font-style:normal; color:var(--gold); }
+  .brew-card p{ max-width:46ch; color:#D9C6BC; font-size:14.5px; line-height:1.6; margin:12px 0 0; }
+  .brew-card .btn-primary{ background:var(--gold); color:#241713; }
+
+  /* ---------- footer ---------- */
+  footer{ padding-block:40px 56px; border-top:1px solid var(--border); }
+  .footer-row{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:22px; }
+  .footer-links{ display:flex; flex-wrap:wrap; gap:18px; font-size:14px; font-weight:600; }
+  .footer-links a{ text-decoration:none; color:var(--text-muted); }
+  .footer-links a:hover{ color:var(--text); }
+  .disclaimer{ margin-top:24px; font-size:12px; line-height:1.6; color:var(--text-muted); max-width:74ch; }
+</style>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <div class="brand-cluster">
+      <div class="brandmark"><span class="dot"></span>MOMO</div>
+      <div class="ca-pill">
+        <span class="mono">0xbc5f…4024</span>
+        <button type="button" data-copy="0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024">Copy</button>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#lore">Lore</a>
+      <a href="#burn">Burn</a>
+      <a href="#lab">PFP Lab</a>
+      <a href="#brew">Brew</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">Buy $MOMO</a>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>ZERO IDENTITY · INFINITE OPINIONS · JOIN THE MOMO ARMY · BREWED ON $BREW · BNB SMART CHAIN · PAIRED WITH $ZEC · 11.44% OF SUPPLY BURNED ·</span>
+      <span>ZERO IDENTITY · INFINITE OPINIONS · JOIN THE MOMO ARMY · BREWED ON $BREW · BNB SMART CHAIN · PAIRED WITH $ZEC · 11.44% OF SUPPLY BURNED ·</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Launched on $BREW · BNB Chain</p>
+        <h1>Zero identity.<br><em>Infinite opinions.</em></h1>
+        <p class="lede">MOMO is the mascot of a real internet disappearing act — a default username and a pink cartoon dinosaur that tens of thousands of people in China chose to keep. Now it's a coin, a character, and an army.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">Buy $MOMO on Brew ↗</a>
+          <a class="btn btn-ghost" href="https://x.com/momoonbrew" target="_blank" rel="noopener">Join the Army on X ↗</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="frame"><img src="momo.png" alt="MOMO, a pink cartoon dinosaur, mid-thought with both hands raised to its chin" /></div>
+        <div class="badge"><span class="fire">🔥</span> 114.44M $MOMO burned</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="lore">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The lore</p>
+        <h2>How a default avatar became an army</h2>
+      </div>
+      <div class="lore-grid">
+        <div class="lore-body">
+          <p>On Chinese platforms like Douban and Xiaohongshu, signing in through WeChat without handing over your real profile used to leave you with a placeholder identity: the username <b>“momo”</b>, paired with a round pink cartoon dinosaur for an avatar. Almost everyone renamed themselves within minutes of signing up. Some didn't.</p>
+          <p>Keeping the default turned out to be useful. When thousands of accounts share the exact same name and the exact same face, no single one of them stands out — which means you can say what you actually think without it being traceable back to you specifically. The habit started in fandom circles, trading gossip about celebrities without getting targeted by rival fan groups. From there it spread to heavier subjects: workplace complaints, feminism, the job market, politics — anywhere people wanted to talk freely without being tracked down and remembered.</p>
+          <p>Today there are reportedly hundreds of thousands of “momo”s scattered across Chinese social platforms, informally known as the <b>momo army (momo 大军)</b>. Comment sections full of identical pink dinosaurs, arguing with each other under the same name.</p>
+          <p class="muted">Worth being precise about what this actually does: blending into a crowd of identical usernames is camouflage from other people on the same platform. It's a social trick, not a technical one — it never touched what the platform itself, or anyone with server access, could see.</p>
+        </div>
+        <div>
+          <div class="pull">
+            <q>“One of them said she started using momo the moment she got recognized in a comment section — and never switched back.”</q>
+            <p class="who">— retold from the momo army, via @momoonbrew</p>
+          </div>
+          <ul class="fact-list">
+            <li>🇨🇳 <span><b>Origin:</b> default WeChat sign-in identity on Douban &amp; Xiaohongshu (RedNote)</span></li>
+            <li>🦕 <span><b>The face:</b> a round pink cartoon dinosaur, kept on purpose</span></li>
+            <li>🤝 <span><b>The name:</b> momo army / momo 大军 — thousands of identical accounts</span></li>
+            <li>🪙 <span><b>The wink:</b> $MOMO is paired with $ZEC — Zcash, an actual privacy coin</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="burn">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">On-chain · no charts, just numbers</p>
+        <h2>Buyback &amp; burn, tracked</h2>
+        <p>Every trade pays a 1% pool fee. Anyone can trigger a buyback — it spends the creator's fee share to buy $MOMO on the open market and send it straight to the burn address. Nothing is paid out to wallets; the supply just gets smaller, so everyone still holding owns a slightly bigger slice.</p>
+      </div>
+
+      <div class="burn-hero">
+        <span class="eyebrow" style="color:var(--text-muted)">Total $MOMO burned</span>
+        <span class="big mono" id="burnBig">114.44M</span>
+        <span class="sub">11.44% of total supply, sent to the burn address for good</span>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat"><div class="k">Total supply</div><div class="v mono">1,000M</div></div>
+        <div class="stat"><div class="k">Circulating (post-burn)</div><div class="v mono">~885.56M</div></div>
+        <div class="stat"><div class="k">Holders</div><div class="v mono">1,790</div></div>
+        <div class="stat"><div class="k">Chain</div><div class="v mono">BNB Smart Chain</div></div>
+      </div>
+
+      <div class="ca-row">
+        <span class="mono">0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024</span>
+        <button type="button" data-copy="0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024">Copy address</button>
+      </div>
+
+      <p class="snapshot-note">📸 Snapshot from Brew · Sep 19, 2026 — burns happen continuously, so check the live figure <a href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">on Brew ↗</a></p>
+    </div>
+  </section>
+
+  <section id="lab">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Build your own</p>
+        <h2>Suit up for the Momo army</h2>
+        <p>Pick a backdrop, headwear, eyewear and a pin. Every combination looks a little different and none of them are more “real” than the others — that's kind of the whole point.</p>
+      </div>
+
+      <div class="lab">
+        <div class="lab-canvas-wrap">
+          <div class="lab-card">
+            <canvas id="pfpCanvas" width="800" height="800" aria-label="MOMO PFP preview"></canvas>
+            <div class="row">
+              <button class="btn btn-ghost" type="button" id="shuffleBtn">🔀 Shuffle</button>
+              <button class="btn btn-primary" type="button" id="saveBtn">⬇ Save PFP</button>
+            </div>
+            <div class="lab-status" id="labStatus">PNG · 800×800</div>
+          </div>
+        </div>
+        <div>
+          <div class="trait-group">
+            <h3>Backdrop</h3>
+            <div class="chip-row" data-group="backdrop"></div>
+          </div>
+          <div class="trait-group">
+            <h3>Headwear</h3>
+            <div class="chip-row" data-group="headwear"></div>
+          </div>
+          <div class="trait-group">
+            <h3>Eyewear</h3>
+            <div class="chip-row" data-group="eyewear"></div>
+          </div>
+          <div class="trait-group">
+            <h3>Pin</h3>
+            <div class="chip-row" data-group="badge"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="brew">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Powered by</p>
+        <h2>Brewed on Brew</h2>
+      </div>
+      <div class="brew-card">
+        <div>
+          <div class="brew-lockup">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8c9 0 15 5 19 5s5-2 5-2-1 6-8 6c-6 0-9-3-14-3-6 0-9 3-9 3s1-9 7-9Z" fill="#D8B573"/>
+              <path d="M12 22c0-2 2-3 4-3h14c2 0 4 1 4 3v9c0 6.6-5.4 12-12 12h-2c-4.4 0-8-3.6-8-8v-4h-1c-2.8 0-5-2.2-5-5s2.2-5 5-5h1v1Z" fill="#D8B573" fill-opacity=".92"/>
+              <path d="M12 22h1v10c0 4.4 3.6 8 8 8h2c6.6 0 12-5.4 12-12v-9c0-2-2-3-4-3H16c-2 0-4 1-4 3Z" stroke="#241713" stroke-width="1.4"/>
+              <ellipse cx="24" cy="22" rx="11" ry="2.3" fill="#241713" fill-opacity=".18"/>
+            </svg>
+            <span>brew<i>.</i></span>
+          </div>
+          <p>Brew is a creator-token launchpad on BNB Smart Chain — “brew” your own token around a memecoin, a stock, or a coin you like. Every Brew token can run buyback-and-burn straight from its own trading fees. $MOMO was brewed on <b style="color:#F7ECE4">Sep 6, 2026</b>.</p>
+        </div>
+        <a class="btn btn-primary" href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">View MOMO on Brew ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="brandmark"><span class="dot"></span>MOMO</div>
+      <div class="footer-links">
+        <a href="https://x.com/momoonbrew" target="_blank" rel="noopener">X / @momoonbrew</a>
+        <a href="https://brew.family/token/?address=0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024&exploreTab=trending" target="_blank" rel="noopener">Brew</a>
+        <a href="https://bscscan.com/token/0xbc5ff7fe4d1b928423cf6c54bfa5f907130b4024" target="_blank" rel="noopener">BscScan</a>
+      </div>
+    </div>
+    <p class="disclaimer">$MOMO is a memecoin with no intrinsic value or expectation of financial return, and has no affiliation with Douban, Xiaohongshu, WeChat, or Zcash — it's a meme paying homage to an internet culture moment. Tokens are highly volatile and can lose all value. Nothing on this page is financial advice; do your own research before buying, selling, or trading anything.</p>
+    <p class="disclaimer">Fan-made site for the Momo army. Not affiliated with Brew beyond being launched on it.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- copy-to-clipboard ----------
+  document.querySelectorAll("[data-copy]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var text = btn.getAttribute("data-copy");
+      var original = btn.textContent;
+      function done(ok){
+        btn.textContent = ok ? "Copied!" : "Copy failed";
+        setTimeout(function(){ btn.textContent = original; }, 1600);
+      }
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ done(true); }).catch(function(){ done(false); });
+        } else {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          var ok = false;
+          try{ ok = document.execCommand("copy"); }catch(e){ ok = false; }
+          document.body.removeChild(ta);
+          done(ok);
+        }
+      }catch(e){ done(false); }
+    });
+  });
+
+  // ---------- PFP LAB ----------
+  var canvas = document.getElementById("pfpCanvas");
+  var ctx = canvas.getContext("2d");
+  var W = canvas.width, H = canvas.height;
+
+  var CARD = { x: 120, y: 178, w: 560, h: 560, r: 44 };
+  var LINE = "#6B3A4D";
+  var LINE_DARK = "#4A2536";
+
+  // fixed star positions for the "Starry Night" backdrop, generated once
+  var STAR_SEED = (function(){
+    var pts = [];
+    var s = 42;
+    function rand(){ s = (s * 9301 + 49297) % 233280; return s / 233280; }
+    for (var i = 0; i < 26; i++){
+      pts.push({ x: rand() * W, y: rand() * H, r: 3 + rand() * 6, kind: rand() > 0.75 ? "heart" : "star" });
+    }
+    return pts;
+  })();
+
+  function roundRectPath(c, x, y, w, h, r){
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+
+  function drawStar(c, cx, cy, r, color){
+    c.save();
+    c.translate(cx, cy);
+    c.beginPath();
+    for (var i = 0; i < 4; i++){
+      c.rotate(Math.PI / 2);
+      c.moveTo(0, 0);
+      c.quadraticCurveTo(r * 0.15, r * 0.15, r, 0);
+      c.quadraticCurveTo(r * 0.15, -r * 0.15, 0, 0);
+    }
+    c.closePath();
+    c.fillStyle = color;
+    c.fill();
+    c.restore();
+  }
+
+  function drawHeart(c, cx, cy, s, color){
+    c.save();
+    c.translate(cx, cy);
+    c.scale(s / 20, s / 20);
+    c.beginPath();
+    c.moveTo(0, 6);
+    c.bezierCurveTo(-14, -6, -10, -16, 0, -8);
+    c.bezierCurveTo(10, -16, 14, -6, 0, 6);
+    c.closePath();
+    c.fillStyle = color;
+    c.fill();
+    c.restore();
+  }
+
+  var BACKDROPS = {
+    bubblegum: { label: "Bubblegum", swatch: "linear-gradient(135deg,#FFD9DD,#F2879E)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#FFE1D6"); g.addColorStop(1, "#F2879E");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+    }},
+    mint: { label: "Mint Fresh", swatch: "linear-gradient(135deg,#EAFBF1,#79C79E)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#EAFBF1"); g.addColorStop(1, "#79C79E");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+    }},
+    lavender: { label: "Lavender Haze", swatch: "linear-gradient(135deg,#F1E9FF,#B091DE)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#F1E9FF"); g.addColorStop(1, "#B091DE");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+    }},
+    sunset: { label: "Sunset", swatch: "linear-gradient(135deg,#FFD59E,#EE6E8C)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#FFDA9E"); g.addColorStop(0.55, "#F4899A"); g.addColorStop(1, "#D8637E");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+    }},
+    brew: { label: "Gold Brew", swatch: "linear-gradient(135deg,#2A1B14,#C99A55)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#241713"); g.addColorStop(1, "#B4863B");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+    }},
+    stars: { label: "Starry Night", swatch: "linear-gradient(135deg,#1B1B33,#3B3768)", paint: function(c){
+      var g = c.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, "#161528"); g.addColorStop(1, "#332F5C");
+      c.fillStyle = g; c.fillRect(0, 0, W, H);
+      STAR_SEED.forEach(function(p){
+        if (p.kind === "heart") drawHeart(c, p.x, p.y, p.r * 1.6, "rgba(242,177,170,.85)");
+        else drawStar(c, p.x, p.y, p.r, "rgba(216,181,115,.9)");
+      });
+    }}
+  };
+
+  var HEADWEAR = {
+    none: { label: "None", draw: function(){} },
+    crown: { label: "Crown", draw: function(c, anchorX, topY){
+      var w = CARD.w * 0.40, h = CARD.h * 0.16, x = anchorX - w / 2, y = topY - h * 0.72;
+      c.save();
+      c.beginPath();
+      c.moveTo(x, y + h);
+      c.lineTo(x, y + h * 0.35);
+      c.lineTo(x + w * 0.2, y + h * 0.65);
+      c.lineTo(x + w * 0.5, y);
+      c.lineTo(x + w * 0.8, y + h * 0.65);
+      c.lineTo(x + w, y + h * 0.35);
+      c.lineTo(x + w, y + h);
+      c.closePath();
+      var g = c.createLinearGradient(x, y, x, y + h);
+      g.addColorStop(0, "#F3D48A"); g.addColorStop(1, "#C99A3F");
+      c.fillStyle = g; c.fill();
+      c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      [0.5, 0.2, 0.8].forEach(function(f){
+        c.beginPath(); c.arc(x + w * f, y + h * (f === 0.5 ? 0.28 : 0.58), h * 0.09, 0, Math.PI * 2);
+        c.fillStyle = "#C24F63"; c.fill(); c.lineWidth = 2.5; c.strokeStyle = LINE_DARK; c.stroke();
+      });
+      c.restore();
+    }},
+    bandana: { label: "Bandana", draw: function(c, anchorX, topY){
+      var cx = anchorX - CARD.w * 0.14, cy = topY + CARD.h * 0.02;
+      c.save();
+      c.translate(cx, cy); c.rotate(-0.28);
+      c.beginPath();
+      c.moveTo(-CARD.w * 0.16, -CARD.h * 0.02);
+      c.lineTo(CARD.w * 0.15, -CARD.h * 0.06);
+      c.lineTo(CARD.w * 0.10, CARD.h * 0.09);
+      c.closePath();
+      c.fillStyle = "#5C6B3C"; c.fill();
+      c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      [[-CARD.w*0.08,-CARD.h*0.01],[CARD.w*0.01,-CARD.h*0.03],[CARD.w*0.06,CARD.h*0.01]].forEach(function(p){
+        c.beginPath(); c.arc(p[0], p[1], 4.5, 0, Math.PI * 2); c.fillStyle = "#F3D48A"; c.fill();
+      });
+      c.beginPath();
+      c.moveTo(CARD.w * 0.14, -CARD.h * 0.05);
+      c.lineTo(CARD.w * 0.30, -CARD.h * 0.10);
+      c.lineTo(CARD.w * 0.27, CARD.h * 0.01);
+      c.closePath();
+      c.fillStyle = "#5C6B3C"; c.fill(); c.lineWidth = 4.5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.restore();
+    }},
+    halo: { label: "Halo", draw: function(c, anchorX, topY){
+      c.save();
+      c.translate(anchorX, topY - CARD.h * 0.15);
+      c.rotate(-0.05);
+      c.beginPath();
+      c.ellipse(0, 0, CARD.w * 0.17, CARD.w * 0.05, 0, 0, Math.PI * 2);
+      c.lineWidth = 9; c.strokeStyle = "#F3D48A"; c.stroke();
+      c.lineWidth = 3; c.strokeStyle = LINE_DARK; c.stroke();
+      c.restore();
+    }},
+    propeller: { label: "Propeller Cap", draw: function(c, anchorX, topY){
+      var cx = anchorX, cy = topY - CARD.h * 0.01;
+      c.save();
+      c.beginPath();
+      c.ellipse(cx, cy, CARD.w * 0.15, CARD.h * 0.075, 0, Math.PI, 0);
+      c.fillStyle = "#EE7E8F"; c.fill(); c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.beginPath(); c.moveTo(cx, cy - CARD.h * 0.075); c.lineTo(cx, cy - CARD.h * 0.14);
+      c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.save();
+      c.translate(cx, cy - CARD.h * 0.14);
+      [0, 90].forEach(function(deg){
+        c.save(); c.rotate(deg * Math.PI / 180);
+        c.beginPath(); c.ellipse(0, 0, CARD.w * 0.075, CARD.h * 0.018, 0, 0, Math.PI * 2);
+        c.fillStyle = "#F3D48A"; c.fill(); c.lineWidth = 2.5; c.strokeStyle = LINE_DARK; c.stroke();
+        c.restore();
+      });
+      c.beginPath(); c.arc(0, 0, 5, 0, Math.PI * 2); c.fillStyle = LINE_DARK; c.fill();
+      c.restore();
+      c.restore();
+    }}
+  };
+
+  function eyeAnchors(){
+    return {
+      lx: CARD.x + CARD.w * 0.258, rx: CARD.x + CARD.w * 0.558,
+      ly: CARD.y + CARD.h * 0.503, ry: CARD.y + CARD.h * 0.513
+    };
+  }
+
+  var EYEWEAR = {
+    none: { label: "None", draw: function(){} },
+    shades: { label: "Round Shades", draw: function(c){
+      var e = eyeAnchors(), r = CARD.w * 0.075;
+      c.save();
+      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
+        c.beginPath(); c.arc(p[0], p[1], r, 0, Math.PI * 2);
+        c.fillStyle = "#241713"; c.fill(); c.lineWidth = 4; c.strokeStyle = "#F3D48A"; c.stroke();
+        c.beginPath(); c.arc(p[0] - r * 0.3, p[1] - r * 0.3, r * 0.22, 0, Math.PI * 2);
+        c.fillStyle = "rgba(255,255,255,.55)"; c.fill();
+      });
+      c.beginPath(); c.moveTo(e.lx + r, e.ly - 2); c.lineTo(e.rx - r, e.ry - 2);
+      c.lineWidth = 4; c.strokeStyle = "#F3D48A"; c.stroke();
+      c.restore();
+    }},
+    laser: { label: "Laser Eyes", draw: function(c){
+      var e = eyeAnchors();
+      c.save();
+      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
+        var g = c.createLinearGradient(p[0], p[1], p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.16);
+        g.addColorStop(0, "rgba(238,60,60,.95)"); g.addColorStop(1, "rgba(238,60,60,0)");
+        c.beginPath(); c.moveTo(p[0], p[1] - 5); c.lineTo(p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.13);
+        c.lineTo(p[0] + CARD.w * 0.26, p[1] + CARD.h * 0.19); c.lineTo(p[0], p[1] + 5); c.closePath();
+        c.fillStyle = g; c.fill();
+        c.beginPath(); c.arc(p[0], p[1], 9, 0, Math.PI * 2); c.fillStyle = "#FF5A5A"; c.fill();
+      });
+      c.restore();
+    }},
+    heart: { label: "Heart Eyes", draw: function(c){
+      var e = eyeAnchors();
+      drawHeart(c, e.lx, e.ly, CARD.w * 0.085, "#E24C68");
+      drawHeart(c, e.rx, e.ry, CARD.w * 0.085, "#E24C68");
+    }},
+    nerd: { label: "Nerd Glasses", draw: function(c){
+      var e = eyeAnchors(), r = CARD.w * 0.08;
+      c.save();
+      c.lineWidth = 5; c.strokeStyle = "#241713";
+      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
+        c.beginPath(); c.arc(p[0], p[1], r, 0, Math.PI * 2);
+        c.fillStyle = "rgba(255,255,255,.18)"; c.fill(); c.stroke();
+        c.beginPath(); c.arc(p[0] - r * 0.35, p[1] - r * 0.35, r * 0.28, 0, Math.PI * 2);
+        c.fillStyle = "rgba(255,255,255,.65)"; c.fill();
+      });
+      c.beginPath(); c.moveTo(e.lx + r, e.ly); c.lineTo(e.rx - r, e.ry);
+      c.stroke();
+      c.restore();
+    }}
+  };
+
+  function badgeAnchor(){
+    return { x: CARD.x + CARD.w * 0.82, y: CARD.y + CARD.h * 0.84, r: CARD.w * 0.105 };
+  }
+
+  var BADGES = {
+    none: { label: "None", draw: function(){} },
+    ticker: { label: "$MOMO Tag", draw: function(c){
+      var b = badgeAnchor();
+      c.save();
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      c.fillStyle = "#241713"; c.fill(); c.lineWidth = 5; c.strokeStyle = "#fff"; c.stroke();
+      c.fillStyle = "#F3D48A"; c.font = "700 " + Math.round(b.r * 0.52) + "px 'JetBrains Mono',monospace";
+      c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillText("$MOMO", b.x, b.y + 1);
+      c.restore();
+    }},
+    flame: { label: "Burn Flame", draw: function(c){
+      var b = badgeAnchor();
+      c.save();
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      c.fillStyle = "#fff"; c.fill(); c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.translate(b.x, b.y + b.r * 0.12); c.scale(b.r / 46, b.r / 46);
+      c.beginPath();
+      c.moveTo(0, -26);
+      c.bezierCurveTo(14, -10, 16, 6, 6, 18);
+      c.bezierCurveTo(12, 10, 8, 2, 2, 6);
+      c.bezierCurveTo(4, 16, -4, 20, -12, 12);
+      c.bezierCurveTo(-20, 4, -14, -8, -6, -16);
+      c.bezierCurveTo(-8, -8, -4, -4, 0, -8);
+      c.closePath();
+      var g = c.createLinearGradient(0, -26, 0, 20);
+      g.addColorStop(0, "#F8C567"); g.addColorStop(1, "#E24C4C");
+      c.fillStyle = g; c.fill();
+      c.restore();
+    }},
+    star: { label: "Army Star", draw: function(c){
+      var b = badgeAnchor();
+      c.save();
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      c.fillStyle = "#C24F63"; c.fill(); c.lineWidth = 5; c.strokeStyle = "#fff"; c.stroke();
+      c.translate(b.x, b.y);
+      c.beginPath();
+      for (var i = 0; i < 5; i++){
+        var a1 = -Math.PI / 2 + i * (2 * Math.PI / 5);
+        var a2 = a1 + Math.PI / 5;
+        c.lineTo(Math.cos(a1) * b.r * 0.62, Math.sin(a1) * b.r * 0.62);
+        c.lineTo(Math.cos(a2) * b.r * 0.28, Math.sin(a2) * b.r * 0.28);
+      }
+      c.closePath();
+      c.fillStyle = "#F3D48A"; c.fill();
+      c.restore();
+    }},
+    shield: { label: "Privacy Shield", draw: function(c){
+      var b = badgeAnchor();
+      c.save();
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      c.fillStyle = "#fff"; c.fill(); c.lineWidth = 5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.translate(b.x, b.y - b.r * 0.05); c.scale(b.r / 40, b.r / 40);
+      c.beginPath();
+      c.moveTo(0, -20); c.lineTo(16, -12); c.lineTo(16, 4);
+      c.bezierCurveTo(16, 16, 8, 22, 0, 26);
+      c.bezierCurveTo(-8, 22, -16, 16, -16, 4);
+      c.lineTo(-16, -12); c.closePath();
+      c.fillStyle = "#79C79E"; c.fill(); c.lineWidth = 2.5; c.strokeStyle = LINE_DARK; c.stroke();
+      c.beginPath(); c.arc(0, -1, 5, 0, Math.PI * 2); c.fillStyle = "#fff"; c.fill();
+      c.beginPath(); c.moveTo(0, 3); c.lineTo(0, 9); c.lineWidth = 3.5; c.strokeStyle = "#fff"; c.stroke();
+      c.restore();
+    }}
+  };
+
+  var state = { backdrop: "bubblegum", headwear: "crown", eyewear: "shades", badge: "star" };
+  var momoImg = new Image();
+  var imgReady = false;
+  momoImg.onload = function(){ imgReady = true; render(); };
+  momoImg.src = "momo.png";
+
+  function render(){
+    ctx.clearRect(0, 0, W, H);
+    BACKDROPS[state.backdrop].paint(ctx);
+
+    // card shadow + white backing
+    ctx.save();
+    roundRectPath(ctx, CARD.x, CARD.y, CARD.w, CARD.h, CARD.r);
+    ctx.shadowColor = "rgba(20,10,10,.35)";
+    ctx.shadowBlur = 46; ctx.shadowOffsetY = 20;
+    ctx.fillStyle = "#fff"; ctx.fill();
+    ctx.restore();
+
+    // clipped character image
+    ctx.save();
+    roundRectPath(ctx, CARD.x, CARD.y, CARD.w, CARD.h, CARD.r);
+    ctx.clip();
+    if (imgReady) ctx.drawImage(momoImg, CARD.x, CARD.y, CARD.w, CARD.h);
+    ctx.restore();
+
+    // eyewear + badge sit on top of the character but under headwear
+    EYEWEAR[state.eyewear].draw(ctx);
+    BADGES[state.badge].draw(ctx);
+
+    // card outline
+    roundRectPath(ctx, CARD.x, CARD.y, CARD.w, CARD.h, CARD.r);
+    ctx.lineWidth = 6; ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.stroke();
+
+    // headwear drawn last so it overlaps the top edge of the card
+    HEADWEAR[state.headwear].draw(ctx, CARD.x + CARD.w * 0.42, CARD.y);
+  }
+
+  function swatchNode(key, group, opt){
+    var el = document.createElement("button");
+    el.type = "button";
+    el.className = "chip";
+    el.setAttribute("aria-pressed", state[group] === key ? "true" : "false");
+    if (group === "backdrop"){
+      el.innerHTML = '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:' + opt.swatch + ';margin-right:7px;vertical-align:-1px;border:1px solid rgba(0,0,0,.15)"></span>' + opt.label;
+    } else {
+      el.textContent = opt.label;
+    }
+    el.addEventListener("click", function(){
+      state[group] = key;
+      document.querySelectorAll('.chip-row[data-group="' + group + '"] .chip').forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
+      el.setAttribute("aria-pressed", "true");
+      render();
+    });
+    return el;
+  }
+
+  function buildChips(group, options){
+    var row = document.querySelector('.chip-row[data-group="' + group + '"]');
+    Object.keys(options).forEach(function(key){
+      row.appendChild(swatchNode(key, group, options[key]));
+    });
+  }
+  buildChips("backdrop", BACKDROPS);
+  buildChips("headwear", HEADWEAR);
+  buildChips("eyewear", EYEWEAR);
+  buildChips("badge", BADGES);
+
+  document.getElementById("shuffleBtn").addEventListener("click", function(){
+    function pick(obj){ var k = Object.keys(obj); return k[Math.floor(Math.random() * k.length)]; }
+    state = { backdrop: pick(BACKDROPS), headwear: pick(HEADWEAR), eyewear: pick(EYEWEAR), badge: pick(BADGES) };
+    document.querySelectorAll(".chip-row").forEach(function(row){
+      var group = row.getAttribute("data-group");
+      row.querySelectorAll(".chip").forEach(function(btn, i){
+        var key = Object.keys({backdrop:BACKDROPS,headwear:HEADWEAR,eyewear:EYEWEAR,badge:BADGES}[group])[i];
+        btn.setAttribute("aria-pressed", state[group] === key ? "true" : "false");
+      });
+    });
+    render();
+  });
+
+  var labStatus = document.getElementById("labStatus");
+  document.getElementById("saveBtn").addEventListener("click", function(){
+    labStatus.textContent = "Saving…";
+    canvas.toBlob(async function(blob){
+      if (!blob){ labStatus.textContent = "Couldn't render the image — try again."; return; }
+      try{
+        var downloads = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+        if (downloads){
+          var res = await downloads.save({ filename: "momo-pfp.png", data: blob });
+          labStatus.textContent = res.status === "saved" ? "Saved to your device ✓" : "Sent ✓";
+        } else {
+          // Plain browser download — used once this page is hosted on its own
+          // domain, outside the Claude artifact preview sandbox.
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url; a.download = "momo-pfp.png";
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+          labStatus.textContent = "Saved to your device ✓";
+        }
+        setTimeout(function(){ labStatus.textContent = "PNG · 800×800"; }, 2400);
+      }catch(e){
+        var code = e && e.code;
+        if (code === "declined") labStatus.textContent = "No worries — save it whenever you're ready.";
+        else if (code === "rate_limited") labStatus.textContent = "Give it a second and try again.";
+        else labStatus.textContent = "Couldn't save right now.";
+        setTimeout(function(){ labStatus.textContent = "PNG · 800×800"; }, 2400);
+      }
+    }, "image/png");
+  });
+
+  render();
+})();
+</script>
