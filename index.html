@@ -367,7 +367,7 @@
       <div class="section-head">
         <p class="eyebrow">Build your own</p>
         <h2>Suit up for the Momo army</h2>
-        <p>Pick a backdrop, eyewear, a mouth, a skin and a pin. Every combination looks a little different and none of them are more “real” than the others — that's kind of the whole point.</p>
+        <p>Pick a backdrop, eyewear and a pin. Every combination looks a little different and none of them are more “real” than the others — that's kind of the whole point.</p>
       </div>
 
       <div class="lab">
@@ -389,14 +389,6 @@
           <div class="trait-group">
             <h3>Eyewear</h3>
             <div class="chip-row" data-group="eyewear"></div>
-          </div>
-          <div class="trait-group">
-            <h3>Mouth</h3>
-            <div class="chip-row" data-group="mouth"></div>
-          </div>
-          <div class="trait-group">
-            <h3>Skin</h3>
-            <div class="chip-row" data-group="skin"></div>
           </div>
           <div class="trait-group">
             <h3>Pin</h3>
@@ -492,17 +484,6 @@
     function rand(){ s = (s * 9301 + 49297) % 233280; return s / 233280; }
     for (var i = 0; i < 26; i++){
       pts.push({ x: rand() * W, y: rand() * H, r: 3 + rand() * 6, kind: rand() > 0.75 ? "heart" : "star" });
-    }
-    return pts;
-  })();
-
-  // fixed seed-dot positions for the "Strawberry" skin, in card-fraction coords
-  var STRAWBERRY_SEED = (function(){
-    var pts = [];
-    var s = 17;
-    function rand(){ s = (s * 9301 + 49297) % 233280; return s / 233280; }
-    for (var i = 0; i < 22; i++){
-      pts.push({ x: 0.08 + rand() * 0.84, y: 0.1 + rand() * 0.8, r: 0.01 + rand() * 0.012, a: rand() * Math.PI * 2 });
     }
     return pts;
   })();
@@ -605,10 +586,6 @@
     };
   }
 
-  function mouthAnchor(){
-    return { x: CARD.x + CARD.w * 0.405, y: CARD.y + CARD.h * 0.645 };
-  }
-
   var EYEWEAR = {
     none: { label: "None", draw: function(){} },
     shades: { label: "Round Shades", draw: function(c){
@@ -695,141 +672,6 @@
       });
       c.beginPath(); c.moveTo(e.lx + r, e.ly); c.lineTo(e.rx - r, e.ry);
       c.stroke();
-      c.restore();
-    }}
-  };
-
-  var MOUTH = {
-    none: { label: "None", draw: function(){} },
-    burger: { label: "Burger", draw: function(c){
-      var m = mouthAnchor(), s = CARD.w * 0.115;
-      c.save();
-      c.translate(m.x, m.y);
-      c.scale(s / 40, s / 40);
-      c.lineJoin = "round";
-      c.beginPath();
-      c.moveTo(-19, 9); c.lineTo(19, 9); c.quadraticCurveTo(21, 21, 13, 23); c.lineTo(-13, 23);
-      c.quadraticCurveTo(-21, 21, -19, 9); c.closePath();
-      c.fillStyle = "#E8A85C"; c.fill(); c.lineWidth = 2.4; c.strokeStyle = LINE_DARK; c.stroke();
-      c.beginPath();
-      c.moveTo(-20, 5); c.quadraticCurveTo(-13, -1, -6, 5); c.quadraticCurveTo(0, -1, 6, 5);
-      c.quadraticCurveTo(13, -1, 20, 5); c.lineTo(20, 9); c.lineTo(-20, 9); c.closePath();
-      c.fillStyle = "#8FC172"; c.fill(); c.lineWidth = 2; c.strokeStyle = LINE_DARK; c.stroke();
-      c.beginPath();
-      c.moveTo(-19, -3); c.lineTo(19, -3); c.lineTo(19, 4); c.lineTo(-19, 4); c.closePath();
-      c.fillStyle = "#7A4B2E"; c.fill(); c.lineWidth = 2; c.strokeStyle = LINE_DARK; c.stroke();
-      c.beginPath();
-      c.moveTo(-19, -3); c.lineTo(19, -3); c.lineTo(16, 2); c.lineTo(10, -1); c.lineTo(4, 3);
-      c.lineTo(-2, -1); c.lineTo(-8, 3); c.lineTo(-14, -1); c.lineTo(-19, 3); c.closePath();
-      c.fillStyle = "#F3C94E"; c.fill();
-      c.beginPath();
-      c.moveTo(-18, -7); c.quadraticCurveTo(-19, -23, 0, -24); c.quadraticCurveTo(19, -23, 18, -7); c.closePath();
-      c.fillStyle = "#F0B45C"; c.fill(); c.lineWidth = 2.4; c.strokeStyle = LINE_DARK; c.stroke();
-      c.fillStyle = "#FCE7B0";
-      [[-9, -16], [-2, -20], [6, -17], [11, -11], [-11, -9]].forEach(function(p){
-        c.save(); c.translate(p[0], p[1]); c.rotate(0.4);
-        c.beginPath(); c.ellipse(0, 0, 2.2, 1.2, 0, 0, Math.PI * 2); c.fill(); c.restore();
-      });
-      c.restore();
-    }},
-    gum: { label: "Bubble Gum", draw: function(c){
-      var m = mouthAnchor(), r = CARD.w * 0.07;
-      c.save();
-      c.translate(m.x - CARD.w * 0.02, m.y - CARD.w * 0.05);
-      c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2);
-      var g = c.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r);
-      g.addColorStop(0, "rgba(255,200,215,.95)"); g.addColorStop(1, "rgba(240,120,150,.85)");
-      c.fillStyle = g; c.fill();
-      c.lineWidth = 2.5; c.strokeStyle = "#C2506B"; c.stroke();
-      c.beginPath(); c.ellipse(-r * 0.32, -r * 0.32, r * 0.22, r * 0.14, -0.5, 0, Math.PI * 2);
-      c.fillStyle = "rgba(255,255,255,.75)"; c.fill();
-      c.restore();
-    }},
-    cookie: { label: "Cookie", draw: function(c){
-      var m = mouthAnchor(), r = CARD.w * 0.075;
-      c.save();
-      c.translate(m.x, m.y + CARD.w * 0.01);
-      c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2);
-      c.fillStyle = "#C6874F"; c.fill(); c.lineWidth = 2.5; c.strokeStyle = LINE_DARK; c.stroke();
-      c.fillStyle = "#5B3420";
-      [[-0.35, -0.25], [0.25, -0.15], [0, 0.3], [0.4, 0.35], [-0.3, 0.35], [0.1, -0.02]].forEach(function(p){
-        c.beginPath(); c.arc(p[0] * r * 1.4, p[1] * r * 1.4, r * 0.14, 0, Math.PI * 2); c.fill();
-      });
-      c.restore();
-    }},
-    watergun: { label: "Water Gun", draw: function(c){
-      var m = mouthAnchor(), s = CARD.w * 0.1;
-      c.save();
-      c.translate(m.x + CARD.w * 0.02, m.y);
-      c.scale(s / 30, s / 30);
-      c.rotate(-0.08);
-      c.beginPath(); c.moveTo(-4, -8); c.lineTo(30, -8); c.lineTo(30, 2); c.lineTo(-4, 2); c.closePath();
-      c.fillStyle = "#F4D658"; c.fill(); c.lineWidth = 2; c.strokeStyle = LINE_DARK; c.stroke();
-      c.beginPath(); c.moveTo(-16, -10); c.lineTo(4, -10); c.lineTo(4, 10); c.lineTo(-10, 10);
-      c.quadraticCurveTo(-18, 10, -18, 2); c.closePath();
-      c.fillStyle = "#4E8FE0"; c.fill(); c.lineWidth = 2; c.strokeStyle = LINE_DARK; c.stroke();
-      c.beginPath(); c.moveTo(-14, 8); c.lineTo(-6, 8); c.lineTo(-6, 20); c.lineTo(-16, 20); c.closePath();
-      c.fillStyle = "#E86B3B"; c.fill(); c.lineWidth = 2; c.strokeStyle = LINE_DARK; c.stroke();
-      c.restore();
-      [[0.18, -0.05, 1], [0.24, 0.03, 0.7], [0.27, -0.1, 0.55]].forEach(function(d){
-        var dx = m.x + CARD.w * (0.02 + d[0]), dy = m.y + CARD.w * d[1] * 0.4;
-        var r2 = CARD.w * 0.018 * d[2];
-        c.beginPath();
-        c.moveTo(dx, dy - r2);
-        c.quadraticCurveTo(dx + r2, dy, dx, dy + r2);
-        c.quadraticCurveTo(dx - r2, dy, dx, dy - r2);
-        c.closePath();
-        c.fillStyle = "rgba(120,190,255,.85)"; c.fill();
-      });
-    }}
-  };
-
-  var SKIN = {
-    none: { label: "None", paint: function(){} },
-    strawberry: { label: "Strawberry", paint: function(c){
-      c.save();
-      c.globalCompositeOperation = "multiply";
-      var g = c.createLinearGradient(CARD.x, CARD.y, CARD.x, CARD.y + CARD.h);
-      g.addColorStop(0, "#FF9CA8"); g.addColorStop(1, "#E2495B");
-      c.fillStyle = g; c.fillRect(CARD.x, CARD.y, CARD.w, CARD.h);
-      c.restore();
-      c.save();
-      STRAWBERRY_SEED.forEach(function(p){
-        var x = CARD.x + CARD.w * p.x, y = CARD.y + CARD.h * p.y, r = CARD.w * p.r;
-        c.save(); c.translate(x, y); c.rotate(p.a);
-        c.beginPath(); c.ellipse(0, 0, r, r * 1.8, 0, 0, Math.PI * 2);
-        c.fillStyle = "#5C7A3A"; c.fill();
-        c.restore();
-      });
-      c.restore();
-    }},
-    panda: { label: "Panda", paint: function(c){
-      c.save();
-      c.globalAlpha = 0.5;
-      c.fillStyle = "#FFFFFF";
-      c.fillRect(CARD.x, CARD.y, CARD.w, CARD.h);
-      c.restore();
-      var e = eyeAnchors();
-      c.save();
-      [[e.lx, e.ly], [e.rx, e.ry]].forEach(function(p){
-        c.beginPath();
-        c.ellipse(p[0], p[1] - CARD.w * 0.01, CARD.w * 0.095, CARD.w * 0.115, 0, 0, Math.PI * 2);
-        c.fillStyle = "#241713"; c.fill();
-      });
-      c.restore();
-    }},
-    slime: { label: "Slime", paint: function(c){
-      c.save();
-      c.globalCompositeOperation = "multiply";
-      var g = c.createLinearGradient(CARD.x, CARD.y, CARD.x, CARD.y + CARD.h);
-      g.addColorStop(0, "#B9F0A0"); g.addColorStop(1, "#5FBE5A");
-      c.fillStyle = g; c.fillRect(CARD.x, CARD.y, CARD.w, CARD.h);
-      c.restore();
-      c.save();
-      c.globalAlpha = 0.35;
-      var g2 = c.createLinearGradient(CARD.x, CARD.y, CARD.x, CARD.y + CARD.h * 0.4);
-      g2.addColorStop(0, "#ffffff"); g2.addColorStop(1, "rgba(255,255,255,0)");
-      c.fillStyle = g2; c.fillRect(CARD.x, CARD.y, CARD.w, CARD.h * 0.4);
       c.restore();
     }}
   };
@@ -987,7 +829,7 @@
     }}
   };
 
-  var state = { backdrop: "bubblegum", eyewear: "shades", mouth: "none", skin: "none", badge: "star" };
+  var state = { backdrop: "bubblegum", eyewear: "shades", badge: "star" };
   var momoImg = new Image();
   var imgReady = false;
   momoImg.onload = function(){ imgReady = true; render(); };
@@ -1005,17 +847,15 @@
     ctx.fillStyle = "#fff"; ctx.fill();
     ctx.restore();
 
-    // clipped character image + skin overlay
+    // clipped character image
     ctx.save();
     roundRectPath(ctx, CARD.x, CARD.y, CARD.w, CARD.h, CARD.r);
     ctx.clip();
     if (imgReady) ctx.drawImage(momoImg, CARD.x, CARD.y, CARD.w, CARD.h);
-    SKIN[state.skin].paint(ctx);
     ctx.restore();
 
-    // eyewear + mouth + badge sit on top of the character
+    // eyewear + badge sit on top of the character
     EYEWEAR[state.eyewear].draw(ctx);
-    MOUTH[state.mouth].draw(ctx);
     BADGES[state.badge].draw(ctx);
 
     // card outline
@@ -1050,16 +890,14 @@
   }
   buildChips("backdrop", BACKDROPS);
   buildChips("eyewear", EYEWEAR);
-  buildChips("mouth", MOUTH);
-  buildChips("skin", SKIN);
   buildChips("badge", BADGES);
 
   document.getElementById("shuffleBtn").addEventListener("click", function(){
     function pick(obj){ var k = Object.keys(obj); return k[Math.floor(Math.random() * k.length)]; }
-    state = { backdrop: pick(BACKDROPS), eyewear: pick(EYEWEAR), mouth: pick(MOUTH), skin: pick(SKIN), badge: pick(BADGES) };
+    state = { backdrop: pick(BACKDROPS), eyewear: pick(EYEWEAR), badge: pick(BADGES) };
     document.querySelectorAll(".chip-row").forEach(function(row){
       var group = row.getAttribute("data-group");
-      var groupMap = {backdrop:BACKDROPS,eyewear:EYEWEAR,mouth:MOUTH,skin:SKIN,badge:BADGES};
+      var groupMap = {backdrop:BACKDROPS,eyewear:EYEWEAR,badge:BADGES};
       row.querySelectorAll(".chip").forEach(function(btn, i){
         var key = Object.keys(groupMap[group])[i];
         btn.setAttribute("aria-pressed", state[group] === key ? "true" : "false");
